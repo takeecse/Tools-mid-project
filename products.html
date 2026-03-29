@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — TAKEE Music Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbarMount"></div>
+
+<section class="shop-container">
+
+  <!-- FILTERS -->
+  <aside class="filters">
+    <div class="filter-section">
+      <h3>Categories</h3>
+      <ul id="categoryList">
+        <li class="active" onclick="filterCategory('all',this)">🎵 All Instruments</li>
+        <li onclick="filterCategory('guitar',this)">🎸 Guitars</li>
+        <li onclick="filterCategory('piano',this)">🎹 Pianos</li>
+        <li onclick="filterCategory('violin',this)">🎻 Violins</li>
+        <li onclick="filterCategory('drum',this)">🥁 Drums</li>
+        <li onclick="filterCategory('bass',this)">🎵 Bass Guitars</li>
+        <li onclick="filterCategory('saxophone',this)">🎷 Saxophones</li>
+        <li onclick="filterCategory('flute',this)">🪈 Flutes</li>
+        <li onclick="filterCategory('ukulele',this)">🪗 Ukuleles</li>
+      </ul>
+    </div>
+
+    <div class="filter-section">
+      <h3>Price Range</h3>
+      <div class="price-range-container">
+        <input type="range" min="0" max="10000" value="10000" id="priceRange"
+          class="price-slider" oninput="filterPrice(this.value)">
+        <div class="price-display">
+          <span>$0</span>
+          <span>Up to <span id="priceValue">$10,000</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Rating</h3>
+      <ul id="ratingList">
+        <li class="active" onclick="filterRating(0,this)">All Ratings</li>
+        <li onclick="filterRating(5,this)">⭐⭐⭐⭐⭐ Only</li>
+        <li onclick="filterRating(4,this)">⭐⭐⭐⭐ &amp; up</li>
+        <li onclick="filterRating(3,this)">⭐⭐⭐ &amp; up</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <main class="products-area">
+    <div class="products-header">
+      <div class="products-count">
+        Showing <strong id="productCount">0</strong> instruments
+      </div>
+    </div>
+    <div id="productGrid" class="product-grid"></div>
+  </main>
+
+</section>
+
+<footer>
+  <div class="footer-bottom" style="max-width:1300px;margin:0 auto">
+    <span>© 2026 TAKEE Music Store</span>
+    <span>Jamalkhan, Chattogram, Bangladesh</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script src="js/navbar-include.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/navbar.js"></script>
+<script>
+  let currentCategory = 'all';
+  let currentMaxPrice = 10000;
+  let currentMinRating = 0;
+
+  function filterCategory(cat, el) {
+    currentCategory = cat;
+    document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
+    if (el) el.classList.add('active');
+    applyFilters();
+  }
+
+  function filterPrice(price) {
+    currentMaxPrice = parseInt(price);
+    document.getElementById('priceValue').textContent = '$' + parseInt(price).toLocaleString();
+    applyFilters();
+  }
+
+  function filterRating(min, el) {
+    currentMinRating = min;
+    document.querySelectorAll('#ratingList li').forEach(li => li.classList.remove('active'));
+    if (el) el.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const searchVal = ((document.getElementById('searchInput') || {}).value || '').toLowerCase();
+    const filtered  = products.filter(p =>
+      (currentCategory === 'all' || p.category === currentCategory) &&
+      p.price  <= currentMaxPrice &&
+      p.rating >= currentMinRating &&
+      p.name.toLowerCase().includes(searchVal)
+    );
+    displayProducts(filtered);
+    document.getElementById('productCount').textContent = filtered.length;
+  }
+
+  // Wire up the injected search bar (navbar-include creates it after DOMContentLoaded)
+  document.addEventListener('DOMContentLoaded', () => {
+    const si = document.getElementById('searchInput');
+    if (si) si.addEventListener('input', applyFilters);
+
+    // URL params
+    const params = new URLSearchParams(window.location.search);
+    const urlCat = params.get('category');
+    const urlSearch = params.get('search');
+
+    if (urlSearch) {
+      si.value = decodeURIComponent(urlSearch);
+    }
+
+    if (urlCat) {
+      currentCategory = urlCat;
+      document.querySelectorAll('#categoryList li').forEach(li => {
+        if (li.textContent.toLowerCase().includes(urlCat)) {
+          li.classList.add('active');
+        } else {
+          li.classList.remove('active');
+        }
+      });
+    }
+
+    applyFilters();
+  });
+</script>
+</body>
+</html>

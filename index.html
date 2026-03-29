@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TAKEE — Premium Musical Instruments</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navbar injected here by navbar-include.js -->
+<div id="navbarMount"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-notes" id="heroNotes"></div>
+
+  <div class="hero-label">Est. 2026 · Chattogram, Bangladesh</div>
+  <h1>Where Music<br>Comes <em>Alive</em></h1>
+  <p>Curated collection of premium guitars, pianos, violins, drums and more for musicians at every level.</p>
+
+  <div class="hero-cta">
+    <button class="shop-btn" onclick="navigate('products.html')">Shop Now →</button>
+    <button class="btn-ghost" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Browse Categories</button>
+  </div>
+</section>
+
+<!-- FEATURED STRIP -->
+<div class="featured-strip">
+  <div class="strip-item"><span class="strip-icon">🚚</span><span class="strip-text">Free shipping over $500</span></div>
+  <div class="strip-divider"></div>
+  <div class="strip-item"><span class="strip-icon">🎸</span><span class="strip-text">Premium brand instruments</span></div>
+  <div class="strip-divider"></div>
+  <div class="strip-item"><span class="strip-icon">🔄</span><span class="strip-text">30-day returns</span></div>
+  <div class="strip-divider"></div>
+  <div class="strip-item"><span class="strip-icon">🛡️</span><span class="strip-text">2-year warranty</span></div>
+  <div class="strip-divider"></div>
+  <div class="strip-item"><span class="strip-icon">💬</span><span class="strip-text">Expert support</span></div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="category-section" id="categories">
+  <div class="section-header">
+    <div class="section-label">Browse by type</div>
+    <h2 class="section-title">Shop By Category</h2>
+  </div>
+
+  <div class="category-grid" id="categoryGridHome">
+    <!-- Injected by JS below so icons/links are consistent -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>TAKEE</h3>
+      <p>Bringing world-class musical instruments to musicians across Bangladesh and beyond. Premium quality, curated selection.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=guitar')">Guitars</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=piano')">Pianos</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=violin')">Violins</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=drum')">Drums</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=bass')">Bass Guitars</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=saxophone')">Saxophones</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=flute')">Flutes</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('products.html?category=ukulele')">Ukuleles</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="javascript:void(0)" onclick="navigate('contact.html')">Contact Us</a></li>
+        <li><a href="javascript:void(0)">Shipping Policy</a></li>
+        <li><a href="javascript:void(0)">Returns</a></li>
+        <li><a href="javascript:void(0)" onclick="navigate('login.html')">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TAKEE Music Store. All rights reserved.</span>
+    <span>Jamalkhan, Chattogram, Bangladesh</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script src="js/navbar-include.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/navbar.js"></script>
+<script>
+  // Build category grid from categoryMeta
+  const catGrid = document.getElementById('categoryGridHome');
+  Object.entries(categoryMeta).forEach(([key, meta]) => {
+    const card = document.createElement('div');
+    card.className = 'category-card';
+    card.innerHTML = `
+      <div class="category-overlay"></div>
+      <div class="category-icon">${meta.icon}</div>
+      <div class="category-info"><h3>${meta.label}</h3><p>Explore collection</p></div>`;
+    card.onclick = () => navigate('products.html?category=' + key);
+    catGrid.appendChild(card);
+  });
+
+  // Floating music notes
+  const notes = ['♩','♪','♫','♬','𝄞','𝄢'];
+  const noteContainer = document.getElementById('heroNotes');
+  for (let i = 0; i < 12; i++) {
+    const el = document.createElement('span');
+    el.className = 'note';
+    el.textContent = notes[Math.floor(Math.random() * notes.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (10 + Math.random() * 15) + 's';
+    el.style.animationDelay = Math.random() * 10 + 's';
+    el.style.fontSize = (16 + Math.random() * 24) + 'px';
+    noteContainer.appendChild(el);
+  }
+</script>
+</body>
+</html>

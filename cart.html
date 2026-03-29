@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — TAKEE Music Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbarMount"></div>
+
+<section class="cart-page">
+  <h1>Your Cart</h1>
+
+  <div class="cart-layout">
+    <div id="cartItemsContainer"></div>
+
+    <div class="cart-summary" id="cartSummary">
+      <h2>Order Summary</h2>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotalPrice">$0</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span id="shippingCost">Free</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="totalPrice">$0</span>
+      </div>
+      <button class="add-cart" onclick="proceedCheckout()">Proceed to Checkout →</button>
+      <button class="add-cart secondary" onclick="clearCart()">Clear Cart</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom" style="max-width:1300px;margin:0 auto">
+    <span>© 2026 TAKEE Music Store</span>
+    <span>Jamalkhan, Chattogram, Bangladesh</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-icon">🗑️</span>
+  <span id="toastMsg">Item removed</span>
+</div>
+
+<script src="js/navbar-include.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/navbar.js"></script>
+</body>
+</html>
